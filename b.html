@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bezier Curves Examples</title>
+  <style>
+    canvas {
+      border: 1px solid #ccc;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas1" width="400" height="400"></canvas>
+  <canvas id="canvas2" width="400" height="400"></canvas>
+  <canvas id="canvas3" width="400" height="400"></canvas>
+
+  <script>
+    // Two Points Curve
+    const canvas1 = document.getElementById('canvas1');
+    const ctx1 = canvas1.getContext('2d');
+
+    const p1 = { x: 50, y: 100 };
+    const p2 = { x: 250, y: 300 };
+    let isDragging1 = false;
+    let isDragging2 = false;
+
+    function animate1() {
+      ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+
+      ctx1.beginPath();
+      ctx1.moveTo(p1.x, p1.y);
+      ctx1.lineTo(p2.x, p2.y);
+      ctx1.stroke();
+
+      ctx1.beginPath();
+      ctx1.arc(p1.x, p1.y, 5, 0, Math.PI * 2);
+      ctx1.fillStyle = isDragging1 ? 'red' : 'blue';
+      ctx1.fill();
+
+      ctx1.beginPath();
+      ctx1.arc(p2.x, p2.y, 5, 0, Math.PI * 2);
+      ctx1.fillStyle = isDragging2 ? 'red' : 'blue';
+      ctx1.fill();
+
+      requestAnimationFrame(animate1);
+    }
+
+    animate1();
+
+    canvas1.addEventListener('mousedown', (event) => {
+      const rect = canvas1.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+
+      if (Math.sqrt((mouseX - p1.x) ** 2 + (mouseY - p1.y) ** 2) <= 5) {
+        isDragging1 = true;
+      } else if (Math.sqrt((mouseX - p2.x) ** 2 + (mouseY - p2.y) ** 2) <= 5) {
+        isDragging2 = true;
+      }
+    });
+
+    canvas1.addEventListener('mousemove', (event) => {
+      if (isDragging1 || isDragging2) {
+        const rect = canvas1.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        if (isDragging1) {
+          p1.x = mouseX;
+          p1.y = mouseY;
+        } else if (isDragging2) {
+          p2.x = mouseX;
+          p2.y = mouseY;
+        }
+      }
+    });
+
+    canvas1.addEventListener('mouseup', () => {
+      isDragging1 = false;
+      isDragging2 = false;
+    });
+
+    // Three Points Curve
+    const canvas2 = document.getElementById('canvas2');
+    const ctx2 = canvas2.getContext('2d');
+
+    const p3 = { x: 50, y: 100 };
+    const p4 = { x: 150, y: 200 };
+    const p5 = { x: 250, y: 100 };
+    let isDragging3 = false;
+    let isDragging4 = false;
+    let isDragging5 = false;
+
+    function animate2() {
+      ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+
+      ctx2.beginPath();
+      ctx2.moveTo(p3.x, p3.y);
+      ctx2.quadraticCurveTo(p4.x, p4.y, p5.x, p5.y);
+      ctx2.stroke();
+
+      ctx2.beginPath();
+      ctx2.arc(p3.x, p3.y, 5, 0, Math.PI * 2);
+      ctx2.fillStyle = isDragging3 ? 'red' : 'blue';
+      ctx2.fill();
+
+      ctx2.beginPath();
+      ctx2.arc(p4.x, p4.y, 5, 0, Math.PI * 2);
+      ctx2.fillStyle = isDragging4 ? 'red' : 'blue';
+      ctx2.fill();
+
+      ctx2.beginPath();
+      ctx2.arc(p5.x, p5.y, 5, 0, Math.PI * 2);
+      ctx2.fillStyle = isDragging5 ? 'red' : 'blue';
+      ctx2.fill();
+
+      ctx2.beginPath();
+      ctx2.moveTo(p3.x, p3.y);
+      ctx2.lineTo(p4.x, p4.y);
+      ctx2.lineTo(p5.x, p5.y);
+      ctx2.stroke();
+
+      requestAnimationFrame(animate2);
+    }
+
+    animate2();
+
+    canvas2.addEventListener('mousedown', (event) => {
+      const rect = canvas2.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+
+      if (Math.sqrt((mouseX - p3.x) ** 2 + (mouseY - p3.y) ** 2) <= 5) {
+        isDragging3 = true;
+      } else if (Math.sqrt((mouseX - p4.x) ** 2 + (mouseY - p4.y) ** 2) <= 5) {
+        isDragging4 = true;
+      } else if (Math.sqrt((mouseX - p5.x) ** 2 + (mouseY - p5.y) ** 2) <= 5) {
+        isDragging5 = true;
+      }
+    });
+
+    canvas2.addEventListener('mousemove', (event) => {
+      if (isDragging3 || isDragging4 || isDragging5) {
+        const rect = canvas2.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        if (isDragging3) {
+          p3.x = mouseX;
+          p3.y = mouseY;
+        } else if (isDragging4) {
+          p4.x = mouseX;
+          p4.y = mouseY;
+        } else if (isDragging5) {
+          p5.x = mouseX;
+          p5.y = mouseY;
+        }
+      }
+    });
+
+    canvas2.addEventListener('mouseup', () => {
+      isDragging3 = false;
+      isDragging4 = false;
+      isDragging5 = false;
+    });
+
+    // Four Points Curve
+    const canvas3 = document.getElementById('canvas3');
+    const ctx3 = canvas3.getContext('2d');
+
+    const p6 = { x: 50, y: 100 };
+    const p7 = { x: 150, y: 50 };
+    const p8 = { x: 250, y: 200 };
+    const p9 = { x: 350, y: 100 };
+    let isDragging6 = false;
+    let isDragging7 = false;
+    let isDragging8 = false;
+    let isDragging9 = false;
+
+    function animate3() {
+      ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+
+      ctx3.beginPath();
+      ctx3.moveTo(p6.x, p6.y);
+      ctx3.bezierCurveTo(p7.x, p7.y, p8.x, p8.y, p9.x, p9.y);
+      ctx3.stroke();
+
+      ctx3.beginPath();
+      ctx3.arc(p6.x, p6.y, 5, 0, Math.PI * 2);
+      ctx3.fillStyle = isDragging6 ? 'red' : 'blue';
+      ctx3.fill();
+
+      ctx3.beginPath();
+      ctx3.arc(p7.x, p7.y, 5, 0, Math.PI * 2);
+      ctx3.fillStyle = isDragging7 ? 'red' : 'blue';
+      ctx3.fill();
+
+      ctx3.beginPath();
+      ctx3.arc(p8.x, p8.y, 5, 0, Math.PI * 2);
+      ctx3.fillStyle = isDragging8 ? 'red' : 'blue';
+      ctx3.fill();
+
+      ctx3.beginPath();
+      ctx3.arc(p9.x, p9.y, 5, 0, Math.PI * 2);
+      ctx3.fillStyle = isDragging9 ? 'red' : 'blue';
+      ctx3.fill();
+
+      ctx3.beginPath();
+      ctx3.moveTo(p6.x, p6.y);
+      ctx3.lineTo(p7.x, p7.y);
+      ctx3.lineTo(p8.x, p8.y);
+      ctx3.lineTo(p9.x, p9.y);
+      ctx3.stroke();
+
+      requestAnimationFrame(animate3);
+    }
+
+    animate3();
+
+    canvas3.addEventListener('mousedown', (event) => {
+      const rect = canvas3.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+
+      if (Math.sqrt((mouseX - p6.x) ** 2 + (mouseY - p6.y) ** 2) <= 5) {
+        isDragging6 = true;
+      } else if (Math.sqrt((mouseX - p7.x) ** 2 + (mouseY - p7.y) ** 2) <= 5) {
+        isDragging7 = true;
+      } else if (Math.sqrt((mouseX - p8.x) ** 2 + (mouseY - p8.y) ** 2) <= 5) {
+        isDragging8 = true;
+      } else if (Math.sqrt((mouseX - p9.x) ** 2 + (mouseY - p9.y) ** 2) <= 5) {
+        isDragging9 = true;
+      }
+    });
+
+    canvas3.addEventListener('mousemove', (event) => {
+      if (isDragging6 || isDragging7 || isDragging8 || isDragging9) {
+        const rect = canvas3.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        if (isDragging6) {
+          p6.x = mouseX;
+          p6.y = mouseY;
+        } else if (isDragging7) {
+          p7.x = mouseX;
+          p7.y = mouseY;
+        } else if (isDragging8) {
+          p8.x = mouseX;
+          p8.y = mouseY;
+        } else if (isDragging9) {
+          p9.x = mouseX;
+          p9.y = mouseY;
+        }
+      }
+    });
+
+    canvas3.addEventListener('mouseup', () => {
+      isDragging6 = false;
+      isDragging7 = false;
+      isDragging8 = false;
+      isDragging9 = false;
+    });
+  </script>
+</body>
+</html>
